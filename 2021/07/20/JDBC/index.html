@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="John Doe">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="John Doe">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="">
+    <meta name="description" content="JDBC执行步骤 加载驱动 用户信息和url 连接数据库 生成执行SQL对象 执行sql的对象去执行SQL 释放连接  PreparedStatement 和 Statement一样，PreparedStatement也是用来执行sql语句的与创建Statement不同的是，需要根据sql语句创建PreparedStatement除此之外，还能够通过设置参数，指定相应的值，而不是Statement">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JDBC">
+<meta property="og:url" content="http://example.com/2021/07/20/JDBC/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="JDBC执行步骤 加载驱动 用户信息和url 连接数据库 生成执行SQL对象 执行sql的对象去执行SQL 释放连接  PreparedStatement 和 Statement一样，PreparedStatement也是用来执行sql语句的与创建Statement不同的是，需要根据sql语句创建PreparedStatement除此之外，还能够通过设置参数，指定相应的值，而不是Statement">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-07-20T06:45:30.000Z">
+<meta property="article:modified_time" content="2021-07-20T06:46:16.560Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="JDBC">
+<meta name="twitter:card" content="summary">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    
+    <title>JDBC · Smile</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20210204" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20210204" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/favicon.ico" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js?v=20210204" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    <script src="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.3/js/all.min.js"  data-auto-replace-svg="nest" ></script>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <!-- top read progress line -->
+    <div class="header-element">
+        
+        <div class="read-progress"></div>
+        
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+        <div class="header-sidebar-menu">
+        
+            
+            <div style="padding-left: 1px;">&#xe775;</div>
+            
+        </div>
+    </div>
+    <!-- back to home page text -->
+    <a class="home-link header-element" href=/>Hi,Weclome!</a>
+    <!-- toggle banner for post layout -->
+    
+    
+    <div class="banner">
+    
+        <div class="blog-title header-element">
+            <a href="/" >Hi,Weclome!</a>
+        </div>
+        <div class="post-title header-element">
+            <a href="#" class="post-name">JDBC</a>
+        </div>
+    </div>
+    
+</header>
+    
+<footer class="footer-fixed">
+
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+        <div class="back-top">
+        
+            
+            <div>&#xe639;</div>
+            
+        </div>
+    </div>
+</footer>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            JDBC
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "JDBC">JDBC</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count word-count">1.8k</span>Reading time: <span class="post-count reading-time">8 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2021/07/20</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="JDBC执行步骤"><a href="#JDBC执行步骤" class="headerlink" title="JDBC执行步骤"></a>JDBC执行步骤</h1><ol>
+<li>加载驱动</li>
+<li>用户信息和url</li>
+<li>连接数据库</li>
+<li>生成执行SQL对象</li>
+<li>执行sql的对象去执行SQL</li>
+<li>释放连接</li>
+</ol>
+<h1 id="PreparedStatement"><a href="#PreparedStatement" class="headerlink" title="PreparedStatement"></a>PreparedStatement</h1><blockquote>
+<p>和 Statement一样，PreparedStatement也是用来执行sql语句的<br>与创建Statement不同的是，需要根据sql语句创建PreparedStatement<br>除此之外，还能够通过设置参数，指定相应的值，而不是Statement那样使用字符串拼接</p>
+</blockquote>
+<blockquote>
+<p><strong>Statement</strong> 需要进行字符串拼接，可读性和维护性比较差</p>
+<p>String sql = “insert into hero values(null,”+”‘提莫’”+”,”+313.0f+”,”+50+”)”;</p>
+<p><strong>PreparedStatement</strong> 使用参数设置，可读性好，不易犯错</p>
+<p>String sql = “insert into hero values(null,?,?,?)”;</p>
+</blockquote>
+<blockquote>
+<p>PreparedStatement有预编译机制，性能比Statement更快</p>
+</blockquote>
+<blockquote>
+<p>假设name是用户提交来的数据</p>
+<p>String name = “‘盖伦’ OR 1=1”;</p>
+<p>使用Statement就需要进行字符串拼接<br>拼接出来的语句是：</p>
+<p>select * from hero where name = ‘盖伦’ OR 1=1</p>
+<p>因为有OR 1=1，这是恒成立的<br>那么就会把所有的英雄都查出来，而不只是盖伦<br>如果Hero表里的数据是海量的，比如几百万条，<strong>把这个表里的数据全部查出来</strong><br>会让数据库负载变高，CPU100%，内存消耗光，<strong>响应变得极其缓慢</strong></p>
+<p>而PreparedStatement使用的是<strong>参数设置</strong>，就不会有这个问题</p>
+</blockquote>
+<h1 id="execute-与-executeUpdate"><a href="#execute-与-executeUpdate" class="headerlink" title="execute 与 executeUpdate"></a>execute 与 executeUpdate</h1><p>相同点：<strong>execute</strong>与<strong>executeUpdate</strong>的相同点：都可以执行增加，删除，修改</p>
+<p>不同点：</p>
+<p>1、execute<strong>可以执行查询语句</strong></p>
+<p>2、然后通过getResultSet，把结果集取出来<br>3、executeUpdate<strong>不能执行查询语句</strong></p>
+<p>4、execute<strong>返回boolean类型</strong>，true表示执行的是查询语句，false表示执行的是insert,delete,update等等<br>5、executeUpdate<strong>返回的是int</strong>，表示有多少条数据受到了影响</p>
+<h2 id="特殊操作"><a href="#特殊操作" class="headerlink" title="特殊操作"></a>特殊操作</h2><h3 id="获取自增长id"><a href="#获取自增长id" class="headerlink" title="获取自增长id"></a>获取自增长id</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// JDBC通过getGeneratedKeys获取该id</span></span><br><span class="line">          ResultSet rs = ps.getGeneratedKeys();</span><br></pre></td></tr></table></figure>
+
+<h3 id="获取表的元数据"><a href="#获取表的元数据" class="headerlink" title="获取表的元数据"></a>获取表的元数据</h3><p>元数据概念：<br>和数据库服务器相关的数据，比如数据库版本，有哪些表，表有哪些字段，字段类型是什么等等。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> (Connection c = DriverManager.getConnection(<span class="string">&quot;jdbc:mysql://127.0.0.1:3306/how2java?characterEncoding=UTF-8&quot;</span>,<span class="string">&quot;root&quot;</span>, <span class="string">&quot;admin&quot;</span>);) &#123;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 查看数据库层面的元数据</span></span><br><span class="line">    <span class="comment">// 即数据库服务器版本，驱动版本，都有哪些数据库等等</span></span><br><span class="line">  </span><br><span class="line">    DatabaseMetaData dbmd = c.getMetaData();</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 获取数据库服务器产品名称</span></span><br><span class="line">    System.out.println(<span class="string">&quot;数据库产品名称:\t&quot;</span>+dbmd.getDatabaseProductName());</span><br><span class="line">    <span class="comment">// 获取数据库服务器产品版本号</span></span><br><span class="line">    System.out.println(<span class="string">&quot;数据库产品版本:\t&quot;</span>+dbmd.getDatabaseProductVersion());</span><br><span class="line">    <span class="comment">// 获取数据库服务器用作类别和表名之间的分隔符 如test.user</span></span><br><span class="line">    System.out.println(<span class="string">&quot;数据库和表分隔符:\t&quot;</span>+dbmd.getCatalogSeparator());</span><br><span class="line">    <span class="comment">// 获取驱动版本</span></span><br><span class="line">    System.out.println(<span class="string">&quot;驱动版本:\t&quot;</span>+dbmd.getDriverVersion());</span><br><span class="line">  </span><br><span class="line">    System.out.println(<span class="string">&quot;可用的数据库列表：&quot;</span>);</span><br><span class="line">    <span class="comment">// 获取数据库名称</span></span><br><span class="line">    ResultSet rs = dbmd.getCatalogs();</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">while</span> (rs.next()) &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;数据库名称:\t&quot;</span>+rs.getString(<span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br></pre></td></tr></table></figure>
+
+<h1 id="事务没学！！！"><a href="#事务没学！！！" class="headerlink" title="事务没学！！！"></a>事务没学！！！</h1><h1 id="ORM"><a href="#ORM" class="headerlink" title="ORM"></a>ORM</h1><blockquote>
+<p>对象和数据库的映射</p>
+<p>一个对象对应数据库里的一条数据</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.cloud;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.sql.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestJDBC3self</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Hero <span class="title">get</span><span class="params">(<span class="keyword">int</span> id)</span></span>&#123;</span><br><span class="line">           Hero hero = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Class.forName(<span class="string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            String sql = <span class="string">&quot;select * from hero where id = &quot;</span> + id;</span><br><span class="line">            <span class="keyword">try</span>(Connection c = DriverManager.getConnection(<span class="string">&quot;jdbc:mysql://127.0.0.1:3306/how2java?characterEncoding=UTF-8&quot;</span>,<span class="string">&quot;root&quot;</span>,<span class="string">&quot;wy20001003&quot;</span>);</span><br><span class="line">                PreparedStatement p = c.prepareStatement(sql)</span><br><span class="line">            ) &#123;</span><br><span class="line"></span><br><span class="line">                ResultSet r =  p.executeQuery(sql);</span><br><span class="line">                <span class="keyword">while</span> (r.next())&#123;</span><br><span class="line">                    hero = <span class="keyword">new</span> Hero();</span><br><span class="line">                    String name = r.getString(<span class="number">2</span>);</span><br><span class="line">                    <span class="keyword">float</span> hp = r.getFloat(<span class="number">3</span>);</span><br><span class="line">                    <span class="keyword">int</span> damage = r.getInt(<span class="number">4</span>);</span><br><span class="line">                    <span class="keyword">int</span> id1 = r.getInt(<span class="number">1</span>);</span><br><span class="line">                    hero.id = id1;</span><br><span class="line">                    hero.hp = hp;</span><br><span class="line">                    hero.damage = damage;</span><br><span class="line">                    hero.name = name;</span><br><span class="line">                &#125;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> hero;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Hero h = get(<span class="number">666</span>);</span><br><span class="line">                System.out.println(h.name);</span><br><span class="line">            &#125;<span class="keyword">catch</span> (NullPointerException n)&#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;没有此条数据！！！&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="DAO"><a href="#DAO" class="headerlink" title="DAO"></a>DAO</h2><blockquote>
+<p>DAO=<strong>D</strong>ata <strong>A</strong>ccess  <strong>O</strong>bject</p>
+<p>数据访问对象</p>
+<p>实际上就是运用了练习-ORM中的思路，把数据库相关的操作都封装在这个类里面，其他地方看不到JDBC的代码</p>
+</blockquote>
+<p>接口DAO</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DAO</span> </span>&#123;</span><br><span class="line">    <span class="comment">//增加</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(Hero hero)</span></span>;</span><br><span class="line">    <span class="comment">//修改</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(Hero hero)</span></span>;</span><br><span class="line">    <span class="comment">//删除</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(<span class="keyword">int</span> id)</span></span>;</span><br><span class="line">    <span class="comment">//获取</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Hero <span class="title">get</span><span class="params">(<span class="keyword">int</span> id)</span></span>;</span><br><span class="line">    <span class="comment">//分页查询</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Hero&gt; <span class="title">list</span><span class="params">(<span class="keyword">int</span> start,<span class="keyword">int</span> count)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HeroDAO</span> <span class="keyword">implements</span> <span class="title">DAO</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HeroDAO</span><span class="params">()</span> </span>&#123;<span class="comment">//把驱动直接放在HeroDAO的构造方法中</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class.forName(<span class="string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Connection <span class="title">getConnection</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> DriverManager.getConnection(<span class="string">&quot;jdbc:mysql://127.0.0.1:3306/how2java?characterEncoding=UTF-8&quot;</span>, <span class="string">&quot;root&quot;</span>,</span><br><span class="line">                <span class="string">&quot;wy20001003&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getTotal</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> total = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">try</span> (Connection c = getConnection(); Statement s = c.createStatement())&#123;</span><br><span class="line">            String sql = <span class="string">&quot;select count(*) from hero&quot;</span>;</span><br><span class="line">            ResultSet r = s.executeQuery(sql);</span><br><span class="line">            <span class="keyword">while</span> (r.next())&#123;</span><br><span class="line">                total +=<span class="number">1</span> ;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException throwables) &#123;</span><br><span class="line">            throwables.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">return</span> total;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(Hero hero)</span> </span>&#123;</span><br><span class="line">        String sql = <span class="string">&quot;insert into hero values(null;?;?;?)&quot;</span>;</span><br><span class="line">        <span class="keyword">try</span> (Connection c = getConnection(); PreparedStatement ps = c.prepareStatement(sql);)&#123;</span><br><span class="line">            ps.setInt(<span class="number">3</span>,hero.damage);</span><br><span class="line">            ps.setString(<span class="number">1</span>,hero.name);</span><br><span class="line">            ps.setFloat(<span class="number">2</span>,hero.hp);</span><br><span class="line">            ps.execute();</span><br><span class="line">            ResultSet rs= ps.getGeneratedKeys();</span><br><span class="line">            <span class="keyword">while</span> (rs.next())</span><br><span class="line">            &#123;</span><br><span class="line">                hero.id = rs.getInt(<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException throwables) &#123;</span><br><span class="line">            throwables.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(Hero hero)</span> </span>&#123;</span><br><span class="line">        String sql = <span class="string">&quot;update hero set name=?, hp = ? , damage = ? where id = ?&quot;</span>;</span><br><span class="line">        <span class="keyword">try</span> (Connection c = getConnection(); PreparedStatement ps = c.prepareStatement(sql);)&#123;</span><br><span class="line">            ps.setString(<span class="number">1</span>, hero.name);</span><br><span class="line">            ps.setFloat(<span class="number">2</span>, hero.hp);</span><br><span class="line">            ps.setInt(<span class="number">3</span>, hero.damage);</span><br><span class="line">            ps.setInt(<span class="number">4</span>, hero.id);</span><br><span class="line">            ps.execute();</span><br><span class="line">        &#125;<span class="keyword">catch</span> (SQLException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> (Connection c = getConnection(); Statement s = c.createStatement();)&#123;</span><br><span class="line">            String sql = <span class="string">&quot;delete from hero where id = &quot;</span> + id;</span><br><span class="line">            s.execute(sql);</span><br><span class="line">        &#125;<span class="keyword">catch</span> (SQLException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Hero <span class="title">get</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">        Hero hero = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> (Connection c = getConnection(); Statement s = c.createStatement();)&#123;</span><br><span class="line">            String sql = <span class="string">&quot;select * from hero where id = &quot;</span> + id;</span><br><span class="line">            ResultSet rs = s.executeQuery(sql);</span><br><span class="line">           <span class="keyword">if</span> (rs.next())</span><br><span class="line">            &#123;</span><br><span class="line"></span><br><span class="line">                 hero = <span class="keyword">new</span> Hero();</span><br><span class="line">                 hero.name = rs.getString(<span class="number">2</span>);</span><br><span class="line">                 hero.hp = rs.getFloat(<span class="string">&quot;hp&quot;</span>);</span><br><span class="line">                 hero.damage = rs.getInt(<span class="number">4</span>);</span><br><span class="line">                 hero.id = id;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">catch</span> (SQLException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> hero;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Hero&gt; <span class="title">list</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> list(<span class="number">0</span>,Short.MAX_VALUE);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Hero&gt; <span class="title">list</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">int</span> count)</span> </span>&#123;</span><br><span class="line">        List&lt;Hero&gt; heros = <span class="keyword">null</span>;</span><br><span class="line">        String sql = <span class="string">&quot;select * from hero order by id limit ?,?&quot;</span>;</span><br><span class="line">        <span class="keyword">try</span> (Connection c = getConnection(); PreparedStatement ps = c.prepareStatement(sql);)&#123;</span><br><span class="line">            ps.setInt(<span class="number">1</span>,start);</span><br><span class="line">            ps.setInt(<span class="number">2</span>,count);</span><br><span class="line">            ResultSet rs =ps.executeQuery();</span><br><span class="line">            <span class="keyword">while</span> (rs.next())&#123;</span><br><span class="line">                  Hero hero = <span class="keyword">new</span> Hero();</span><br><span class="line">                  hero.id = rs.getInt(<span class="number">1</span>);</span><br><span class="line">                  hero.name = rs.getString(<span class="number">2</span>);</span><br><span class="line">                  hero.hp = rs.getFloat(<span class="number">3</span>);</span><br><span class="line">                  hero.damage = rs.getInt(<span class="number">4</span>);</span><br><span class="line">                  heros.add(hero);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;<span class="keyword">catch</span> (SQLException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> heros;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="数据库连接池（暂时没学）"><a href="#数据库连接池（暂时没学）" class="headerlink" title="数据库连接池（暂时没学）"></a>数据库连接池（暂时没学）</h2><blockquote>
+<p>当有多个线程，每个线程都需要连接数据库执行SQL语句的话，那么每个线程都会创建一个连接，并且在使用完毕后，关闭连接。</p>
+<p>创建连接和关闭连接的过程也是比较消耗时间的，当多线程并发的时候，系统就会变得很卡顿。</p>
+<p>同时，一个数据库同时支持的连接总数也是有限的，如果多线程并发量很大，那么数据库连接的总数就会被消耗光，后续线程发起的数据库连接就会失败。</p>
+</blockquote>
+<blockquote>
+<p>与传统方式不同，连接池在使用之前，就会创建好一定数量的连接。<br>如果有任何线程需要使用连接，那么就从连接池里面<strong>借用</strong>，<strong>而不是自己重新创建</strong>.<br>使用完毕后，又把这个连接<strong>归还</strong>给连接池供下一次或者其他线程使用。<br>倘若发生多线程并发情况，连接池里的连接被<strong>借用光</strong>了，那么其他线程就会临时等待，直到有连接被<strong>归还</strong>回来，再继续使用。<br>整个过程，这些连接都<strong>不会被关闭</strong>，而是不断的被循环使用，从而节约了启动和关闭连接的时间。</p>
+</blockquote>
+<p>学习链接：<a target="_blank" rel="noopener" href="https://how2j.cn/k/jdbc/jdbc-connection-pool/610.html#nowhere">https://how2j.cn/k/jdbc/jdbc-connection-pool/610.html#nowhere</a></p>
+
+    </article>
+    <!-- license  -->
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2021/07/20/Servlet/" title= "Servlet">
+                    <div class="prevTitle">Servlet</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+     
+    <!-- utteranc评论 -->
+
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+</main>
+
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:2415709143@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/foreverHard" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title=rss></a>
+            
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JDBC%E6%89%A7%E8%A1%8C%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.</span> <span class="toc-text">JDBC执行步骤</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PreparedStatement"><span class="toc-number">2.</span> <span class="toc-text">PreparedStatement</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#execute-%E4%B8%8E-executeUpdate"><span class="toc-number">3.</span> <span class="toc-text">execute 与 executeUpdate</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E6%93%8D%E4%BD%9C"><span class="toc-number">3.1.</span> <span class="toc-text">特殊操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E8%87%AA%E5%A2%9E%E9%95%BFid"><span class="toc-number">3.1.1.</span> <span class="toc-text">获取自增长id</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E8%A1%A8%E7%9A%84%E5%85%83%E6%95%B0%E6%8D%AE"><span class="toc-number">3.1.2.</span> <span class="toc-text">获取表的元数据</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E6%B2%A1%E5%AD%A6%EF%BC%81%EF%BC%81%EF%BC%81"><span class="toc-number">4.</span> <span class="toc-text">事务没学！！！</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ORM"><span class="toc-number">5.</span> <span class="toc-text">ORM</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#DAO"><span class="toc-number">5.1.</span> <span class="toc-text">DAO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0%EF%BC%88%E6%9A%82%E6%97%B6%E6%B2%A1%E5%AD%A6%EF%BC%89"><span class="toc-number">5.2.</span> <span class="toc-text">数据库连接池（暂时没学）</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 10
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2021 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/2021/07/20/JDBC/" >JDBC</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/2021/07/20/Servlet/" >Servlet</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/19</span><a class="archive-post-title" href= "/2021/07/19/%E6%9F%90%E5%9B%BE%E4%B9%A6%E9%A6%86%E7%83%AD%E9%97%A8%E6%95%B0%E6%8D%AE%E7%88%AC%E5%8F%96/" >某图书馆热门数据爬取</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/19</span><a class="archive-post-title" href= "/2021/07/19/yq%E6%95%B0%E6%8D%AE%E7%88%AC%E5%8F%96/" >yq数据爬取</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/19</span><a class="archive-post-title" href= "/2021/07/19/%E4%BF%AE%E9%A5%B0%E7%AC%A6/" >修饰符</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/19</span><a class="archive-post-title" href= "/2021/07/19/%E6%95%B0%E7%BB%84/" >数组</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/19</span><a class="archive-post-title" href= "/2021/07/19/%E6%95%B0%E5%AD%97%E4%B8%8E%E5%AD%97%E7%AC%A6%E4%B8%B2/" >数字与字符串</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/19</span><a class="archive-post-title" href= "/2021/07/19/%E6%93%8D%E4%BD%9C%E7%AC%A6/" >操作符</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/19</span><a class="archive-post-title" href= "/2021/07/19/%E5%8F%98%E9%87%8F/" >变量</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/19</span><a class="archive-post-title" href= "/2021/07/19/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2GitHub-Hexo/" >搭建博客GitHub+Hexo</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="JDBC"><span class="iconfont-archer">&#xe606;</span>JDBC</span>
+    
+        <span class="sidebar-tag-name" data-tags="Servlet"><span class="iconfont-archer">&#xe606;</span>Servlet</span>
+    
+        <span class="sidebar-tag-name" data-tags="爬虫"><span class="iconfont-archer">&#xe606;</span>爬虫</span>
+    
+        <span class="sidebar-tag-name" data-tags="JavaSe"><span class="iconfont-archer">&#xe606;</span>JavaSe</span>
+    
+        <span class="sidebar-tag-name" data-tags="搭建博客"><span class="iconfont-archer">&#xe606;</span>搭建博客</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="java"><span class="iconfont-archer">&#xe60a;</span>java</span>
+    
+        <span class="sidebar-category-name" data-categories="Python"><span class="iconfont-archer">&#xe60a;</span>Python</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "John Doe"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
