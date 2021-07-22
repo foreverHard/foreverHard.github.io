@@ -34,15 +34,15 @@
     <link href="http://example.com/2021/07/22/java%E9%94%99%E8%AF%AF%E6%80%BB%E7%BB%93/"/>
     <id>http://example.com/2021/07/22/java%E9%94%99%E8%AF%AF%E6%80%BB%E7%BB%93/</id>
     <published>2021-07-22T12:04:25.000Z</published>
-    <updated>2021-07-22T12:22:42.981Z</updated>
+    <updated>2021-07-22T12:40:23.559Z</updated>
     
-    <content type="html"><![CDATA[<p>1、把url后边的安全连接参数删除（有警告）或改成false【SQL版本大于connect版本，就要设置成false</p><p><img src="/.com//images%5Cimage-20210710183300262.png" alt="image-20210710183300262"></p><p>2、idea加载驱动</p><p><img src="/.com//java%E9%94%99%E8%AF%AF%E6%80%BB%E7%BB%93%5Cimage-20210710185928653.png" alt="image-20210710185928653"></p><p><img src="/.com//java%E9%94%99%E8%AF%AF%E6%80%BB%E7%BB%93%5Cimage-20210710185956773.png" alt="image-20210710185956773"></p><p><img src="/.com//java%E9%94%99%E8%AF%AF%E6%80%BB%E7%BB%93%5Cimage-20210710190007926.png" alt="image-20210710190007926"></p>]]></content>
+    <content type="html"><![CDATA[<p>1、把url后边的安全连接参数删除（有警告）或改成false【SQL版本大于connect版本，就要设置成false</p><p><img src="https://img-blog.csdnimg.cn/01616697d4a6449f85d50e61e8139eda.png" alt="请添加图片描述"></p><p>2、idea加载驱动</p><p><img src="https://img-blog.csdnimg.cn/ec541059213b4d33a3ea9f6cebae955a.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RUQ0xPVU5E,size_16,color_FFFFFF,t_70" alt="请添加图片描述"></p><p><img src="https://img-blog.csdnimg.cn/6d40c3a1f03a42399f264dba41376bb1.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RUQ0xPVU5E,size_16,color_FFFFFF,t_70" alt="请添加图片描述"></p><p><img src="https://img-blog.csdnimg.cn/9806efdec59440759eddcb0642190f2d.png" alt="请添加图片描述"></p>]]></content>
     
     
       
       
     <summary type="html">&lt;p&gt;1、把url后边的安全连接参数删除（有警告）或改成false【SQL版本大于connect版本，就要设置成false&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/.com//images%5Cimage-20210710183300262.png&quot; alt=&quot;image-20210</summary>
+&lt;p&gt;&lt;img src=&quot;https://img-blog.csdnimg.cn/01616697d4a6449f85d50e61e8139eda.</summary>
       
     
     
