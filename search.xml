@@ -3,6 +3,14 @@
   
     
     <entry>
+      <title><![CDATA[123]]></title>
+      <url>/2021/07/22/123/</url>
+      <content type="html"></content>
+      
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[java错误总结]]></title>
       <url>/2021/07/22/java%E9%94%99%E8%AF%AF%E6%80%BB%E7%BB%93/</url>
       <content type="html"><![CDATA[<h1 id="JDBC"><a href="#JDBC" class="headerlink" title="JDBC"></a>JDBC</h1><p>1、把url后边的安全连接参数删除（有警告）或改成false【SQL版本大于connect版本，就要设置成false<img src="/.com//java%E9%94%99%E8%AF%AF%E6%80%BB%E7%BB%93%5Cimage-20210710183300262.png" alt="image-20210710183300262"></p>
