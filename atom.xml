@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-07-22T12:49:19.685Z</updated>
+  <updated>2021-07-22T12:53:51.114Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mysql</title>
+    <link href="http://example.com/2021/07/22/mysql/"/>
+    <id>http://example.com/2021/07/22/mysql/</id>
+    <published>2021-07-22T12:51:59.000Z</published>
+    <updated>2021-07-22T12:53:51.114Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="检索"><a href="#检索" class="headerlink" title="检索"></a>检索</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select 列名 from 表名;</span><br></pre></td></tr></table></figure><h1 id="去处重复-DISTINCT"><a href="#去处重复-DISTINCT" class="headerlink" title="去处重复(DISTINCT)"></a>去处重复(DISTINCT)</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select distinct 列名 from 表名;</span><br></pre></td></tr></table></figure><h1 id="限制结果-LIMIT"><a href="#限制结果-LIMIT" class="headerlink" title="限制结果(LIMIT)"></a>限制结果(LIMIT)</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select 列名 from 表名 limit x;/* 返回不多余x行*/</span><br><span class="line">select 列名 from 表名 limit x,y;/*从第x行的位置开始，检索y行*/</span><br><span class="line">select 列名 from 表名 limit 4 offset 3;/*从行3开始取4行  MYSQL5支持这种语法*/</span><br></pre></td></tr></table></figure><h1 id="完全限定的表名"><a href="#完全限定的表名" class="headerlink" title="完全限定的表名"></a>完全限定的表名</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select 表名.列名 from 表名;</span><br></pre></td></tr></table></figure><h1 id="排序（ORDER-BY）"><a href="#排序（ORDER-BY）" class="headerlink" title="排序（ORDER BY）"></a>排序（ORDER BY）</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT 列名 from 表名 order by 列名;</span><br><span class="line">select 列名1，列名2，列名3 from 表名 order by 列名1，列名2;/*先对列名1进行排序，如果有相同的值，在对其所在行以列名2的方法进行排序*/</span><br><span class="line">select 列名1 from 表名 order by 列名 desc;/*降序排序*/</span><br><span class="line">select 列名1 from 表名 order by 列名 asc;/*升序排序，一般不写，默认就是升序*/</span><br></pre></td></tr></table></figure><h1 id="排序和限制联用"><a href="#排序和限制联用" class="headerlink" title="排序和限制联用"></a>排序和限制联用</h1><ul><li> 排序放在前，限制放在后</li></ul><h1 id="过滤（where）"><a href="#过滤（where）" class="headerlink" title="过滤（where）"></a>过滤（where）</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select 列名 from 表名 where 限制条件;</span><br><span class="line">select 列名 from 表名 where 列名 IS NULL;/*判断是否为null，与0、空字符串、空格不同*/</span><br></pre></td></tr></table></figure><ul><li>AND操作符</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select 列名 from 表名 where 条件1 AND 条件2;/*检索所有满足条件1和条件2的数据*/</span><br><span class="line">select 列名 from 表名 where BETWEEN X AND Y;/*在x到y中所有的值*/</span><br></pre></td></tr></table></figure><ul><li>OR操作符</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select 列名 from 表名 where 条件1 OR 条件2;/*检索所有满足条件1或条件2的数据*/</span><br></pre></td></tr></table></figure><ul><li>AND和OR联用是，<code>AND的优先级&gt;OR的优先级</code>，如果想让OR先执行，可以加括号</li><li>IN操作符</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select 列名 from 表名 where 列名 in （x,y）;/*与or的性质一样，某列中值为x或为y的检索出来*/</span><br></pre></td></tr></table></figure><ul><li>NOT操作符</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select 列名 from 表名 where 列名  not in （x,y）;/*某列中值不为x和不为y的检索出来*/</span><br></pre></td></tr></table></figure><h1 id="通配符进行过滤（LIKE）"><a href="#通配符进行过滤（LIKE）" class="headerlink" title="通配符进行过滤（LIKE）"></a>通配符进行过滤（LIKE）</h1><ul><li><p>通配符：用来匹配部分值的特殊字符</p></li><li><p>如果没有通配符，那么在引号中的值将不会匹配</p></li><li><p>%</p></li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select 列名 from 表名 where 列名 like &#x27;jet%&#x27;;/*以jet开头的数据，此处%前的内容区分大小写*/</span><br><span class="line">select 列名 from 表名 where 列名 like &#x27;%jet%&#x27;;/*内容包含jet的数据*/</span><br><span class="line">select 列名 from 表名 where 列名 like &#x27;s%e&#x27;;/*以s开头并且以e结尾的数据*/</span><br><span class="line">select * from users where name like &#x27;%&#x27;;/*匹配值不为NULL的数据*/</span><br></pre></td></tr></table></figure><ul><li>_  值匹配一个字符</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select 列名 from 表名 where 列名 like &#x27;_ ton anvil&#x27;;/*只允许 ton anvil前面有一个字符*/</span><br><span class="line">select 列名 from 表名 where 列名 like &#x27;% ton anvil&#x27;;/*不管 ton anvil前面的内容是啥，都检索出来*/</span><br></pre></td></tr></table></figure><h1 id="正则表达式（REGEXP）"><a href="#正则表达式（REGEXP）" class="headerlink" title="正则表达式（REGEXP）"></a>正则表达式（REGEXP）</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select 列名 from 表名 where 列名 regexp &#x27;.000&#x27;;/*.是正则中特殊字符，表示匹配任意一个字符*/</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;检索&quot;&gt;&lt;a href=&quot;#检索&quot; class=&quot;headerlink&quot; title=&quot;检索&quot;&gt;&lt;/a&gt;检索&lt;/h1&gt;&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;s</summary>
+      
+    
+    
+    
+    <category term="MySQL" scheme="http://example.com/categories/MySQL/"/>
+    
+    
+    <category term="MySQL" scheme="http://example.com/tags/MySQL/"/>
+    
+  </entry>
   
   <entry>
     <title>java错误总结</title>
