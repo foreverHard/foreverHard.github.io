@@ -141,11 +141,12 @@
 <p><img src="https://img-blog.csdnimg.cn/ec541059213b4d33a3ea9f6cebae955a.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RUQ0xPVU5E,size_16,color_FFFFFF,t_70" alt="请添加图片描述"></p>
 <p><img src="https://img-blog.csdnimg.cn/6d40c3a1f03a42399f264dba41376bb1.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RUQ0xPVU5E,size_16,color_FFFFFF,t_70" alt="请添加图片描述"></p>
 <p><img src="https://img-blog.csdnimg.cn/9806efdec59440759eddcb0642190f2d.png" alt="请添加图片描述"></p>
+<p>3、PreparedStatement的对象调用executeQuery()时，括号里不能放sql语句，不然无法访问数据库数据</p>
 <h1 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h1><p><img src="https://img-blog.csdnimg.cn/a520615c11fb4c788bc39f7a7199591b.png" alt="请添加图片描述"></p>
 <p><img src="https://img-blog.csdnimg.cn/1ca60f1f9e6c43c6b810185f34cd3520.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RUQ0xPVU5E,size_16,color_FFFFFF,t_70" alt="请添加图片描述"></p>
 <p>可能的原因：</p>
 <ol>
-<li>lib文件夹必须在WEB-INF文件夹下</li>
+<li><strong>lib文件夹必须在WEB-INF文件夹下</strong></li>
 <li>jstl.jar和standard.jar不存在或者版本不兼容</li>
 </ol>
 <h1 id="tomcat启动失败总结"><a href="#tomcat启动失败总结" class="headerlink" title="tomcat启动失败总结"></a>tomcat启动失败总结</h1><ol>
