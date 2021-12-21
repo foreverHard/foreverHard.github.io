@@ -119,6 +119,37 @@
 <p>DNS服务器的IP地址我们也应该知道，只不过操作系统中的TCP/IP的设置项目时已经设置好了，不用去查，但是不同系统的TCP/IP设置方法有差异。</p>
 </blockquote>
 <p><img src="https://img-blog.csdnimg.cn/58eb6051a843471c90c196c4d46564c4.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA56CB5Yac5Lmf5piv5Yac,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<h2 id="全世界DNS服务器的大接力"><a href="#全世界DNS服务器的大接力" class="headerlink" title="全世界DNS服务器的大接力"></a>全世界DNS服务器的大接力</h2><h3 id="DNS服务器的基本工作"><a href="#DNS服务器的基本工作" class="headerlink" title="DNS服务器的基本工作"></a>DNS服务器的基本工作</h3><blockquote>
+<p> 查询信息包含：</p>
+<p>1、域名：服务器、邮件服务器（邮件地址中@后面的部分）的名称</p>
+<p>2、Class：（详细看书的P35）</p>
+<p>3、记录类型：A代表域名对应的IP地址；MX代表域名对应的邮件服务器；不同记录类型，服务器想客户端返回的信息也不同。</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/1d31e248ea5941a4ae21fa55bc8b7aab.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA56CB5Yac5Lmf5piv5Yac,size_20,color_FFFFFF,t_70,g_se,x_16" alt="DNS基本工作"></p>
+<blockquote>
+<p>小科普：A（Address） ; MX（Mail eXchange）邮件交换，其中有个数字表示优先级，数字越小，优先级越高；不止这两种类型，还有好多好多好多！！！</p>
+</blockquote>
+<blockquote>
+<p>总结：只要是作为A记录在DNS服务器上注册的，都可以作为Web服务器的域名；无论任何服务器，只要注册了A类型的记录，都可以作为服务器的域名来使用，A类型的记录表示与IP地址所对应的域名，表示被分配了某个IP地址的某台具体设备的域名。</p>
+</blockquote>
+<p><code>DNS服务器的基本工作结论</code>：根据需要查询的域名和记录类型查找相关的记录，并向客户端返回响应信息。DNS服务器会从域名与IP地址的对照表中查找相应的记录，并返回IP地址。</p>
+<h3 id="域名的层次结构"><a href="#域名的层次结构" class="headerlink" title="域名的层次结构"></a>域名的层次结构</h3><blockquote>
+<p>越靠右，层级越高，每个层级就是一个域，这种具有层次结构的域名信息会注册到DNS服务器中，每个域都作为一个整体来处理，一个域的信息都作为一个整体存放在DNS服务器中的，不能讲一个域拆开来存放在多台DNS服务器中，而且DNS服务器和域之间的关系也不是一对一的。</p>
+</blockquote>
+<p><code>www.lab.glasscom.com</code>:com（最高级别的域）；glasscom（第二高级别）；lab域；www服务器名称；</p>
+<p><code>子域</code>：某个域下面的两个子域，就好比集团中某个部门中的两个小科室；</p>
+<p><code>注</code>：一台DNS服务器可以存放多个域的信息，并不是每个域名都有一台与值对应的DNS服务器</p>
+<h3 id="寻找相应的DNS服务器并获取IP地址"><a href="#寻找相应的DNS服务器并获取IP地址" class="headerlink" title="寻找相应的DNS服务器并获取IP地址"></a>寻找相应的DNS服务器并获取IP地址</h3><p>如何找到我们要访问的Web服务器的信息归哪一台DNS服务器管？</p>
+<blockquote>
+<p>1、将负责管理下级域的DNS服务器的IP地址注册到上级DNS服务器</p>
+<p>2、上级在注册到更上级一次类推</p>
+<p>（相当于由下往上）</p>
+</blockquote>
+<p>例如：lab.glasscom.com这个域的DNS服务器的IP地址需要注册到glasscom.com域的DNS服务器中，而glasscom.com域的DNS服务器的IP地址又需要注册到com域的DNS服务器中。</p>
+<blockquote>
+<p>这样一来上级的DNS服务器可以查询下级IP，下级也可以发送查询请求。</p>
+</blockquote>
+<p><code>根域</code>：</p>
 ]]></content>
       
         <categories>
