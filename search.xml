@@ -86,7 +86,14 @@
 <p>​        （2）中表示前多少位为网络号</p>
 <p><img src="https://img-blog.csdnimg.cn/bd69646ed4b640c3a61ba859d889f171.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA56CB5Yac5Lmf5piv5Yac,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
 </blockquote>
-]]></content>
+<p><code>注</code>：主机号部分全部为0或全部为1是两种概念；全部为0：代表整个子网；全部为1：代表向子网中所有设备发送包，即<code>广播</code>。</p>
+<p><code>广播地址</code>：专门用于同时向网络中所有工作站进行发送的一个地址。</p>
+<h3 id="域名和IP地址并用的原因"><a href="#域名和IP地址并用的原因" class="headerlink" title="域名和IP地址并用的原因"></a>域名和IP地址并用的原因</h3><blockquote>
+<p> <code>注</code>：如果Web服务器使用<code>虚拟主机</code>功能，有可能无法通过IP地址来访问。</p>
+</blockquote>
+<p><code>DNS</code>：将服务器名称和IP地址进行关联，other than，还可以将邮件地址和邮件服务器进行关联，以及为各种信息关联相应的名称。</p>
+<p>原因：IP地址长度为4字节，32Bit，而域名则需要处理几十个到255个字节的字符，增加了路由器的负担，增加了传送数据的时间。</p>
+<h2 id="Socket库提供查询IP地址的功能"><a href="#Socket库提供查询IP地址的功能" class="headerlink" title="Socket库提供查询IP地址的功能"></a>Socket库提供查询IP地址的功能</h2>]]></content>
       
         <categories>
             
