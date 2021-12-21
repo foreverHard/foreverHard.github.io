@@ -26,7 +26,7 @@
 <p>没有路径名是默认访问根目录下的默认文件</p>
 <p>(4)    <img src="https://img-blog.csdnimg.cn/add4b2be313540fcbcc126159bff1927.png" alt="在这里插入图片描述"></p>
 <p>末尾没有“ / ”，如果web服务器上存在以whatisthis这个文件名，则作为文件处理，如果存在这个目录则作为目录来处理，不能出现同名的情况。</p>
-<h2 id="HTTP基本思路"><a href="#HTTP基本思路" class="headerlink" title="HTTP基本思路"></a>HTTP基本思路</h2><p><img src="https://img-blog.csdnimg.cn/5871f0b845004dd1b67f2dc9ff33588a.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA56CB5Yac5Lmf5piv5Yac,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<h3 id="HTTP基本思路"><a href="#HTTP基本思路" class="headerlink" title="HTTP基本思路"></a>HTTP基本思路</h3><p><img src="https://img-blog.csdnimg.cn/5871f0b845004dd1b67f2dc9ff33588a.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA56CB5Yac5Lmf5piv5Yac,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
 <p>URI：存放网页数据文件名或者CGI数据文件名，也就是访问目标</p>
 <p><img src="https://img-blog.csdnimg.cn/365e48a29e0341a8b1fc788946a4171f.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA56CB5Yac5Lmf5piv5Yac,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
 <blockquote>
@@ -91,9 +91,13 @@
 <h3 id="域名和IP地址并用的原因"><a href="#域名和IP地址并用的原因" class="headerlink" title="域名和IP地址并用的原因"></a>域名和IP地址并用的原因</h3><blockquote>
 <p> <code>注</code>：如果Web服务器使用<code>虚拟主机</code>功能，有可能无法通过IP地址来访问。</p>
 </blockquote>
-<p><code>DNS</code>：将服务器名称和IP地址进行关联，other than，还可以将邮件地址和邮件服务器进行关联，以及为各种信息关联相应的名称。</p>
-<p>原因：IP地址长度为4字节，32Bit，而域名则需要处理几十个到255个字节的字符，增加了路由器的负担，增加了传送数据的时间。</p>
-<h2 id="Socket库提供查询IP地址的功能"><a href="#Socket库提供查询IP地址的功能" class="headerlink" title="Socket库提供查询IP地址的功能"></a>Socket库提供查询IP地址的功能</h2>]]></content>
+<p><code>DNS</code>：Domain Name System 域名服务系统</p>
+<p><code>作用</code>：将服务器名称和IP地址进行关联，other than，还可以将邮件地址和邮件服务器进行关联，以及为各种信息关联相应的名称。</p>
+<p><code>原因</code>：IP地址长度为4字节，32Bit，而域名则需要处理几十个到255个字节的字符，增加了路由器的负担，增加了传送数据的时间。</p>
+<h3 id="Socket库提供查询IP地址的功能"><a href="#Socket库提供查询IP地址的功能" class="headerlink" title="Socket库提供查询IP地址的功能"></a>Socket库提供查询IP地址的功能</h3><p><code>域名解析</code>：通过DNS查询IP地址的操作</p>
+<p><code>Socket库</code>：用于调用网络功能的程序组件集合。</p>
+<p><code>解析器</code>：Socket中的一种程序组件</p>
+<h3 id="通过解析器向DNS服务器发出查询"><a href="#通过解析器向DNS服务器发出查询" class="headerlink" title="通过解析器向DNS服务器发出查询"></a>通过解析器向DNS服务器发出查询</h3>]]></content>
       
         <categories>
             
