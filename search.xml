@@ -93,11 +93,33 @@
 </blockquote>
 <p><code>DNS</code>：Domain Name System 域名服务系统</p>
 <p><code>作用</code>：将服务器名称和IP地址进行关联，other than，还可以将邮件地址和邮件服务器进行关联，以及为各种信息关联相应的名称。</p>
-<p><code>原因</code>：IP地址长度为4字节，32Bit，而域名则需要处理几十个到255个字节的字符，增加了路由器的负担，增加了传送数据的时间。</p>
+<p><code>原因</code>：IP地址长度为4字节，32Bit，而域名则需要处理几十个到255个字节的字符，增加了路由器的负担，增加了传送数据的时间。域名是给人用的，IP地址是给计算机用的，这样的话两者都不用作出让步。</p>
 <h3 id="Socket库提供查询IP地址的功能"><a href="#Socket库提供查询IP地址的功能" class="headerlink" title="Socket库提供查询IP地址的功能"></a>Socket库提供查询IP地址的功能</h3><p><code>域名解析</code>：通过DNS查询IP地址的操作</p>
 <p><code>Socket库</code>：用于调用网络功能的程序组件集合。</p>
 <p><code>解析器</code>：Socket中的一种程序组件</p>
-<h3 id="通过解析器向DNS服务器发出查询"><a href="#通过解析器向DNS服务器发出查询" class="headerlink" title="通过解析器向DNS服务器发出查询"></a>通过解析器向DNS服务器发出查询</h3>]]></content>
+<h3 id="通过解析器向DNS服务器发出查询"><a href="#通过解析器向DNS服务器发出查询" class="headerlink" title="通过解析器向DNS服务器发出查询"></a>通过解析器向DNS服务器发出查询</h3><blockquote>
+<p>解析器相当于一个函数，C语言中是这样的</p>
+<p>&lt;内存地址&gt; = gethostbyname(“服务器域名”);</p>
+<p><code>调用方法</code>：在应用程序中编写上途中的一行代码后就能调用解析器完成向DNS服务器查询IP地址的操作。</p>
+<p>根据域名查询IP地址时，浏览器会使用Socket库中的解析器。</p>
+<p><code>查询消息</code>：内容相当于”请告诉我<a href="http://www.baidu.com的ip地址“的数据./">www.baidu.com的IP地址“的数据。</a></p>
+<p><code>发送消息</code>：这个过程是委托操作系统完成的，而不是解析器。</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/561bdc0e866244938b228eb08c5c8cf7.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA56CB5Yac5Lmf5piv5Yac,size_20,color_FFFFFF,t_70,g_se,x_16" alt="具体过程"></p>
+<h3 id="解析器内部原理"><a href="#解析器内部原理" class="headerlink" title="解析器内部原理"></a>解析器内部原理</h3><blockquote>
+<p>网络应用程序在我们的场景中指的是浏览器</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/8b906c296a6746ca84ad407033909b9f.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA56CB5Yac5Lmf5piv5Yac,size_15,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>HTTP消息是用<code>文本编写</code>的，DNS消息使用<code>二进制数据</code>编写的。</p>
+</blockquote>
+<p><code>协议栈</code>：操作系统内部的网络控制软件，也叫”协议驱动“ ”TCP/IP驱动“等。</p>
+<p><code>控制流程转移</code>：我理解的是程序执行途中需要执行另外的程序时，目前正在执行的程序暂停，然后执行另外的程序，等执行完之后，在返回来执行暂停的程序。</p>
+<blockquote>
+<p>DNS服务器的IP地址我们也应该知道，只不过操作系统中的TCP/IP的设置项目时已经设置好了，不用去查，但是不同系统的TCP/IP设置方法有差异。</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/58eb6051a843471c90c196c4d46564c4.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA56CB5Yac5Lmf5piv5Yac,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+]]></content>
       
         <categories>
             
