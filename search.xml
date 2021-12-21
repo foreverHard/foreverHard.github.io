@@ -102,7 +102,7 @@
 <p>&lt;内存地址&gt; = gethostbyname(“服务器域名”);</p>
 <p><code>调用方法</code>：在应用程序中编写上途中的一行代码后就能调用解析器完成向DNS服务器查询IP地址的操作。</p>
 <p>根据域名查询IP地址时，浏览器会使用Socket库中的解析器。</p>
-<p><code>查询消息</code>：内容相当于”请告诉我<a href="http://www.baidu.com的ip地址“的数据./">www.baidu.com的IP地址“的数据。</a></p>
+<p><code>查询消息</code>：内容相当于”请告诉我<a href="http://www.baidu.com“的ip地址的数据./">www.baidu.com“的IP地址的数据。</a></p>
 <p><code>发送消息</code>：这个过程是委托操作系统完成的，而不是解析器。</p>
 </blockquote>
 <p><img src="https://img-blog.csdnimg.cn/561bdc0e866244938b228eb08c5c8cf7.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA56CB5Yac5Lmf5piv5Yac,size_20,color_FFFFFF,t_70,g_se,x_16" alt="具体过程"></p>
