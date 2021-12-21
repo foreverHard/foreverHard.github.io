@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-07-23T03:27:12.307Z</updated>
+  <updated>2021-12-21T03:36:04.801Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>探索浏览器内部</title>
+    <link href="http://example.com/2021/12/21/%E6%8E%A2%E7%B4%A2%E6%B5%8F%E8%A7%88%E5%99%A8%E5%86%85%E9%83%A8/"/>
+    <id>http://example.com/2021/12/21/%E6%8E%A2%E7%B4%A2%E6%B5%8F%E8%A7%88%E5%99%A8%E5%86%85%E9%83%A8/</id>
+    <published>2021-12-21T02:56:29.000Z</published>
+    <updated>2021-12-21T03:36:04.801Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="探索浏览器内部"><a href="#探索浏览器内部" class="headerlink" title="探索浏览器内部"></a>探索浏览器内部</h1><h2 id="生成HTTP请求信息"><a href="#生成HTTP请求信息" class="headerlink" title="生成HTTP请求信息"></a>生成HTTP请求信息</h2><ol><li>URL组成：协议+域名+文件路径</li></ol><p>协议：</p><p>域名：这部分主要是通过DNS服务器找到域名相对应的IP</p><p>文件路径：找到IP后在通过文件路径找到相应的文件</p><p><img src="https://img-blog.csdnimg.cn/ed61e43ee9b643e39d4dddee224b7299.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA56CB5Yac5Lmf5piv5Yac,size_20,color_FFFFFF,t_70,g_se,x_16" alt="URL组成"></p><ol start="2"><li><p>浏览器工作步骤：</p><ul><li>解析URL</li></ul></li><li><p>省略文件名的情况</p></li></ol><p>(1)<img src="https://img-blog.csdnimg.cn/2b10f98ddbb94d76ad9137b8ad4794ef.png" alt="在这里插入图片描述"></p><p>此时会访问dir目录下的默认文件名，<code>/dir/index.html</code>或者<code>/dir/default.htm</code></p><p>(2)    <img src="https://img-blog.csdnimg.cn/ce71a36a80ac40cfbc7ebe9d1eb3d851.png" alt="在这里插入图片描述"></p><p>此时会访问根目录下的默认文件名，<code>/index.html</code>或者<code>/default.htm</code></p><p>(3)    <img src="https://img-blog.csdnimg.cn/f77b9a81e26a4eef91b54f5e3ba2d575.png" alt="在这里插入图片描述"></p><p>没有路径名是默认访问根目录下的默认文件</p><p>(4)    <img src="https://img-blog.csdnimg.cn/add4b2be313540fcbcc126159bff1927.png" alt="在这里插入图片描述"></p><p>末尾没有“ / ”，如果web服务器上存在以whatisthis这个文件名，则作为文件处理，如果存在这个目录则作为目录来处理，不能出现同名的情况。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;探索浏览器内部&quot;&gt;&lt;a href=&quot;#探索浏览器内部&quot; class=&quot;headerlink&quot; title=&quot;探索浏览器内部&quot;&gt;&lt;/a&gt;探索浏览器内部&lt;/h1&gt;&lt;h2 id=&quot;生成HTTP请求信息&quot;&gt;&lt;a href=&quot;#生成HTTP请求信息&quot; class=&quot;head</summary>
+      
+    
+    
+    
+    <category term="计算机网络" scheme="http://example.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+    
+    <category term="计算机网络" scheme="http://example.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>Listener</title>
@@ -70,9 +94,9 @@
     <link href="http://example.com/2021/07/22/java%E9%94%99%E8%AF%AF%E6%80%BB%E7%BB%93/"/>
     <id>http://example.com/2021/07/22/java%E9%94%99%E8%AF%AF%E6%80%BB%E7%BB%93/</id>
     <published>2021-07-22T12:04:25.000Z</published>
-    <updated>2021-07-23T03:33:41.971Z</updated>
+    <updated>2021-07-23T05:50:05.340Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="JDBC"><a href="#JDBC" class="headerlink" title="JDBC"></a>JDBC</h1><p>1、把url后边的安全连接参数删除（有警告）或改成false【SQL版本大于connect版本，就要设置成false</p><p><img src="https://img-blog.csdnimg.cn/01616697d4a6449f85d50e61e8139eda.png" alt="请添加图片描述"></p><p>2、idea加载驱动</p><p><img src="https://img-blog.csdnimg.cn/ec541059213b4d33a3ea9f6cebae955a.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RUQ0xPVU5E,size_16,color_FFFFFF,t_70" alt="请添加图片描述"></p><p><img src="https://img-blog.csdnimg.cn/6d40c3a1f03a42399f264dba41376bb1.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RUQ0xPVU5E,size_16,color_FFFFFF,t_70" alt="请添加图片描述"></p><p><img src="https://img-blog.csdnimg.cn/9806efdec59440759eddcb0642190f2d.png" alt="请添加图片描述"></p><p>3、PreparedStatement的对象调用executeQuery()时，括号里不能放sql语句，不然无法访问数据库数据</p><h1 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h1><p><img src="https://img-blog.csdnimg.cn/a520615c11fb4c788bc39f7a7199591b.png" alt="请添加图片描述"></p><p><img src="https://img-blog.csdnimg.cn/1ca60f1f9e6c43c6b810185f34cd3520.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RUQ0xPVU5E,size_16,color_FFFFFF,t_70" alt="请添加图片描述"></p><p>可能的原因：</p><ol><li><strong>lib文件夹必须在WEB-INF文件夹下</strong></li><li>jstl.jar和standard.jar不存在或者版本不兼容</li></ol><h1 id="tomcat启动失败总结"><a href="#tomcat启动失败总结" class="headerlink" title="tomcat启动失败总结"></a>tomcat启动失败总结</h1><ol><li>同时启动多个tomcat</li><li>端口被占用</li><li>servlet.jar包丢失，重新放在lib文件夹中就可以了，**[java.lang.NoClassDefFoundError: javax/servlet/http/HttpServletRequest]**表示没有找到这个类，说明servlet包丢失了，因为tomcat也是java编写出来的，包丢失的话一些类就无法使用，所以启动失败了！！！！</li><li>JAVA_HOME的环境变量配置错误，因为tomcat也是java写出来的，所以如果找不到java的JDK就启动不了</li></ol>]]></content>
+    <content type="html"><![CDATA[<h1 id="JDBC"><a href="#JDBC" class="headerlink" title="JDBC"></a>JDBC</h1><p>1、把url后边的安全连接参数删除（有警告）或改成false【SQL版本大于connect版本，就要设置成false</p><p><img src="https://img-blog.csdnimg.cn/01616697d4a6449f85d50e61e8139eda.png" alt="请添加图片描述"></p><p>2、idea加载驱动</p><p><img src="https://img-blog.csdnimg.cn/ec541059213b4d33a3ea9f6cebae955a.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RUQ0xPVU5E,size_16,color_FFFFFF,t_70" alt="请添加图片描述"></p><p><img src="https://img-blog.csdnimg.cn/6d40c3a1f03a42399f264dba41376bb1.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RUQ0xPVU5E,size_16,color_FFFFFF,t_70" alt="请添加图片描述"></p><p><img src="https://img-blog.csdnimg.cn/9806efdec59440759eddcb0642190f2d.png" alt="请添加图片描述"></p><p>3、PreparedStatement的对象调用executeQuery()时，括号里不能放sql语句，不然无法访问数据库数据</p><h1 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h1><p><img src="https://img-blog.csdnimg.cn/a520615c11fb4c788bc39f7a7199591b.png" alt="请添加图片描述"></p><p><img src="https://img-blog.csdnimg.cn/1ca60f1f9e6c43c6b810185f34cd3520.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RUQ0xPVU5E,size_16,color_FFFFFF,t_70" alt="请添加图片描述"></p><p>可能的原因：</p><ol><li><strong>lib文件夹必须在WEB-INF文件夹下</strong></li><li>jstl.jar和standard.jar不存在或者版本不兼容</li></ol><h1 id="tomcat启动失败总结"><a href="#tomcat启动失败总结" class="headerlink" title="tomcat启动失败总结"></a>tomcat启动失败总结</h1><ol><li>同时启动多个tomcat</li><li>端口被占用</li><li>servlet.jar包丢失，重新放在lib文件夹中就可以了，**[java.lang.NoClassDefFoundError: javax/servlet/http/HttpServletRequest]**表示没有找到这个类，说明servlet包丢失了，因为tomcat也是java编写出来的，包丢失的话一些类就无法使用，所以启动失败了！！！！</li><li>JAVA_HOME的环境变量配置错误，因为tomcat也是java写出来的，所以如果找不到java的JDK就启动不了</li></ol><h1 id="JSP"><a href="#JSP" class="headerlink" title="JSP"></a>JSP</h1><p>1、<img src="https://img-blog.csdnimg.cn/16eda5b9ff4d464688bf963aa57a853e.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RUQ0xPVU5E,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p><p><img src="https://img-blog.csdnimg.cn/8124090fade446a6890b06f908e0bc4f.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RUQ0xPVU5E,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>]]></content>
     
     
       

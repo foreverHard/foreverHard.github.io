@@ -3,6 +3,50 @@
   
     
     <entry>
+      <title><![CDATA[探索浏览器内部]]></title>
+      <url>/2021/12/21/%E6%8E%A2%E7%B4%A2%E6%B5%8F%E8%A7%88%E5%99%A8%E5%86%85%E9%83%A8/</url>
+      <content type="html"><![CDATA[<h1 id="探索浏览器内部"><a href="#探索浏览器内部" class="headerlink" title="探索浏览器内部"></a>探索浏览器内部</h1><h2 id="生成HTTP请求信息"><a href="#生成HTTP请求信息" class="headerlink" title="生成HTTP请求信息"></a>生成HTTP请求信息</h2><ol>
+<li>URL组成：协议+域名+文件路径</li>
+</ol>
+<p>协议：</p>
+<p>域名：这部分主要是通过DNS服务器找到域名相对应的IP</p>
+<p>文件路径：找到IP后在通过文件路径找到相应的文件</p>
+<p><img src="https://img-blog.csdnimg.cn/ed61e43ee9b643e39d4dddee224b7299.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA56CB5Yac5Lmf5piv5Yac,size_20,color_FFFFFF,t_70,g_se,x_16" alt="URL组成"></p>
+<ol start="2">
+<li><p>浏览器工作步骤：</p>
+<ul>
+<li>解析URL</li>
+</ul>
+</li>
+<li><p>省略文件名的情况</p>
+</li>
+</ol>
+<p>(1)<img src="https://img-blog.csdnimg.cn/2b10f98ddbb94d76ad9137b8ad4794ef.png" alt="在这里插入图片描述"></p>
+<p>此时会访问dir目录下的默认文件名，<code>/dir/index.html</code>或者<code>/dir/default.htm</code></p>
+<p>(2)    <img src="https://img-blog.csdnimg.cn/ce71a36a80ac40cfbc7ebe9d1eb3d851.png" alt="在这里插入图片描述"></p>
+<p>此时会访问根目录下的默认文件名，<code>/index.html</code>或者<code>/default.htm</code></p>
+<p>(3)    <img src="https://img-blog.csdnimg.cn/f77b9a81e26a4eef91b54f5e3ba2d575.png" alt="在这里插入图片描述"></p>
+<p>没有路径名是默认访问根目录下的默认文件</p>
+<p>(4)    <img src="https://img-blog.csdnimg.cn/add4b2be313540fcbcc126159bff1927.png" alt="在这里插入图片描述"></p>
+<p>末尾没有“ / ”，如果web服务器上存在以whatisthis这个文件名，则作为文件处理，如果存在这个目录则作为目录来处理，不能出现同名的情况。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 计算机网络 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 计算机网络 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Listener]]></title>
       <url>/2021/07/23/Listener/</url>
       <content type="html"><![CDATA[<h1 id="Listener"><a href="#Listener" class="headerlink" title="Listener"></a>Listener</h1><blockquote>
@@ -155,6 +199,8 @@
 <li>servlet.jar包丢失，重新放在lib文件夹中就可以了，**[java.lang.NoClassDefFoundError: javax/servlet/http/HttpServletRequest]**表示没有找到这个类，说明servlet包丢失了，因为tomcat也是java编写出来的，包丢失的话一些类就无法使用，所以启动失败了！！！！</li>
 <li>JAVA_HOME的环境变量配置错误，因为tomcat也是java写出来的，所以如果找不到java的JDK就启动不了</li>
 </ol>
+<h1 id="JSP"><a href="#JSP" class="headerlink" title="JSP"></a>JSP</h1><p>1、<img src="https://img-blog.csdnimg.cn/16eda5b9ff4d464688bf963aa57a853e.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RUQ0xPVU5E,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/8124090fade446a6890b06f908e0bc4f.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RUQ0xPVU5E,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 ]]></content>
       
         <categories>
