@@ -157,7 +157,18 @@
 </blockquote>
 <p><img src="https://img-blog.csdnimg.cn/460c2ddb9d114f4f9faa1b6039613b7d.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA56CB5Yac5Lmf5piv5Yac,size_19,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
 <p><img src="https://img-blog.csdnimg.cn/09582082bc494f66a37186df481fe7ef.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA56CB5Yac5Lmf5piv5Yac,size_15,color_FFFFFF,t_70,g_se,x_16" alt="DNS服务器之间的查询操作"></p>
-<h3 id="通过缓存加快DNS服务器的响应"><a href="#通过缓存加快DNS服务器的响应" class="headerlink" title="通过缓存加快DNS服务器的响应"></a>通过缓存加快DNS服务器的响应</h3>]]></content>
+<h3 id="通过缓存加快DNS服务器的响应"><a href="#通过缓存加快DNS服务器的响应" class="headerlink" title="通过缓存加快DNS服务器的响应"></a>通过缓存加快DNS服务器的响应</h3><blockquote>
+<ul>
+<li><p>将之前查询信息放在缓存中，有一个期限，这个期限内再次查询的话直接响应，超过期限数据自动删除</p>
+</li>
+<li><p>信息被缓存后，原本的注册信息可能会发生改变，这时缓存中的信息可能错误</p>
+</li>
+<li><p>DNS服务器会告知客户端这一响应的结果是来自缓存还是DNS服务器。</p>
+</li>
+</ul>
+</blockquote>
+<p><code>缓存</code>：将使用过的数据存放在离使用该数据的地方较劲的高速存储装置中，可以提速。</p>
+<h2 id="委托协议栈发送消息"><a href="#委托协议栈发送消息" class="headerlink" title="委托协议栈发送消息"></a>委托协议栈发送消息</h2><h3 id="数据收发操作概览"><a href="#数据收发操作概览" class="headerlink" title="数据收发操作概览"></a>数据收发操作概览</h3>]]></content>
       
         <categories>
             
