@@ -149,8 +149,15 @@
 <blockquote>
 <p>这样一来上级的DNS服务器可以查询下级IP，下级也可以发送查询请求。</p>
 </blockquote>
-<p><code>根域</code>：</p>
-]]></content>
+<p><code>根域</code>：最后面的一个点<code>.</code>，一般不写出来，根域的DNS服务器中保管者com、jp等DNS服务器的信息。</p>
+<blockquote>
+<p>1、上机DNS服务器保管着所有下级DNS服务器的信息。</p>
+<p>2、根域的DNS服务器信息保存在互联网中所有的DNS服务器中</p>
+<p>3、根域DNS服务器的相关信息已经包含在DNS服务器程序的配置文件中了</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/460c2ddb9d114f4f9faa1b6039613b7d.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA56CB5Yac5Lmf5piv5Yac,size_19,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/09582082bc494f66a37186df481fe7ef.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA56CB5Yac5Lmf5piv5Yac,size_15,color_FFFFFF,t_70,g_se,x_16" alt="DNS服务器之间的查询操作"></p>
+<h3 id="通过缓存加快DNS服务器的响应"><a href="#通过缓存加快DNS服务器的响应" class="headerlink" title="通过缓存加快DNS服务器的响应"></a>通过缓存加快DNS服务器的响应</h3>]]></content>
       
         <categories>
             
