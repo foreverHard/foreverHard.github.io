@@ -55,6 +55,9 @@
 <blockquote>
 <p>计算表长时需要<strong>注意</strong>：因为单链表的长度是不包括头结点的，因此<strong>不带头结点</strong>和<strong>带头结点</strong>的单链表在求表长操作上会略有不同，对不带头结点的单链表，当表为空时，要单独处理。</p>
 </blockquote>
+<h3 id="双链表"><a href="#双链表" class="headerlink" title="双链表"></a>双链表</h3><p>​    <img src="https://img-blog.csdnimg.cn/97629afe863e42e8bc2069a2474db88f.png" alt="在这里插入图片描述"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">DNode</span>&#123;</span></span><br><span class="line">    ElemType data;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">DNode</span> *<span class="title">prior</span>,*<span class="title">next</span>;</span></span><br><span class="line">&#125;DNode,*DLinklist;</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       
         <categories>
